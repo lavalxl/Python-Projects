@@ -2,9 +2,6 @@ import pygame
 import constants as const
 
 
-# icon_img = pygame.image.load(path.join(img_dir, "icon.jpg")).convert_alpha()
-# pygame.display.set_icon(icon_img)
-
 
 class Snake(pygame.sprite.Sprite):
 
