@@ -7,8 +7,6 @@ The classic snake game.
 This game requires Python 3 and Pygame.
 
 ```
-git clone 
-cd snake
 python3 run.py
 ```
 
