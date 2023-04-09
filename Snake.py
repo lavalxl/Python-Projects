@@ -3,8 +3,6 @@ import constants as const
 
 
 
-
-
 class Snake(pygame.sprite.Sprite):
 
     def __init__(self, head_img, tail_img):
