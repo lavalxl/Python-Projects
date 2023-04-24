@@ -37,5 +37,5 @@ or
 10. In menu press "S" to go to shop.
 11. In shop press "S" to go to menu.
 12. In shop press "1", "2" or "3" to change snake skin.
-13. In shop press "4", "5" or "6" to change background.
+13. In shop press "4", "5", "6", "7" or "8" to change background.
 14. Good Luck and Have Fun!

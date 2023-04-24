@@ -57,15 +57,15 @@ class Snake(pygame.sprite.Sprite):
 
     def collision(self, col_type):
         if col_type == 'score':
-            self.length += 5
-            self.score += 1
-            const.FPS += 1
+            self.length += const.APPLE_LENGTH
+            self.score += const.APPLE_SCORE
+            const.FPS += const.APPLE_SPEED
         elif col_type == 'acc':
-            self.score += 6
-            const.FPS += 3
+            self.score += const.ICECREAM_SCORE
+            const.FPS += const.ICECREAM_SPEED
         else:
-            self.score = max(0, self.score - 5)
-            const.FPS = max(30, const.FPS - 10)
+            self.score = max(0, self.score + const.PIZZA_SCORE)
+            const.FPS = max(const.DEFAULT_FPS, const.FPS + const.PIZZA_SPEED)
 
     def boarder_collisions(self):
         if self.rect.right > const.WIDTH or self.rect.left < 0 or self.rect.top < 0 or self.rect.bottom > const.HEIGHT:

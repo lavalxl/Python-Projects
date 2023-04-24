@@ -1,5 +1,5 @@
 import pygame
-import src.Wall as Wall
+import src.level as level
 import src.constants as const
 from src.Background import MovingBackground
 from src.Shop import Shop
@@ -116,6 +116,8 @@ class Game:
             self.display_text("4. sand background", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 260)
             self.display_text("5. anime background", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 290)
             self.display_text("6. ice background", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 320)
+            self.display_text("7. night village background", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 350)
+            self.display_text("8. kita kita background", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 380)
             self.display_text("Press S to go back to menu", const.ARIAL, self.text_color, 25, const.WIDTH / 2, 420)
             pygame.display.update()
 
@@ -137,6 +139,12 @@ class Game:
                     elif event.key == pygame.K_6:
                         self.shop.current_background = 2
                         self.background.image = self.shop.backgrounds[self.shop.current_background]
+                    elif event.key == pygame.K_7:
+                        self.shop.current_background = 3
+                        self.background.image = self.shop.backgrounds[self.shop.current_background]
+                    elif event.key == pygame.K_8:
+                        self.shop.current_background = 4
+                        self.background.image = self.shop.backgrounds[self.shop.current_background]
                     elif event.key == pygame.K_s:
                         self.state = 'menu'
                         self.menu_cycle()
@@ -155,7 +163,7 @@ class Game:
                            self.shop.snake_skins[self.shop.current_skin][1])
         self.all_sprites.add(self.snake)
 
-        self.walls = Wall.wall_generation(self.mode)
+        self.walls = level.generation(self.mode)
         self.all_sprites.add(self.walls)
 
         self.food_generation('score_food')
@@ -177,7 +185,7 @@ class Game:
 
     def game_over_cycle(self):
         while self.running:
-            const.FPS = 30
+            const.FPS = const.DEFAULT_FPS
             self.buffed = False
             self.clock.tick(const.FPS)
             if self.snake.score > self.record:
@@ -239,7 +247,7 @@ class Game:
                 self.snake.collision('score')
                 self.food_generation('score_food')
 
-            if self.snake.score % 10 == 0 and not self.buffed:
+            if self.snake.score % const.BONUS_SPAWN_FREQUENCY == 0 and not self.buffed:
                 self.food_generation('bonus')
                 self.buffed = self.bonuses.sprites()[0].id
 

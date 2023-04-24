@@ -15,3 +15,5 @@ class Shop:
         self.backgrounds.append(pygame.transform.scale(const.background_1, (const.WIDTH, const.HEIGHT)))
         self.backgrounds.append(pygame.transform.scale(const.background_2, (const.WIDTH, const.HEIGHT)))
         self.backgrounds.append(pygame.transform.scale(const.background_3, (const.WIDTH, const.HEIGHT)))
+        self.backgrounds.append(pygame.transform.scale(const.background_4, (const.WIDTH, const.HEIGHT)))
+        self.backgrounds.append(const.background_5)
