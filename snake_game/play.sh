@@ -5,17 +5,39 @@ set -euo pipefail
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 IMAGE_NAME="${SNAKE_GAME_IMAGE:-snake-game:python3.13}"
 CONTAINER_DISPLAY="${SNAKE_DISPLAY:-host.docker.internal:0}"
-MODE="${1:-auto}"
+MODE=auto
+REBUILD=false
 
 usage() {
     cat <<'EOF'
-Использование: ./play.sh [auto|novnc|x11]
+Использование: ./play.sh [auto|novnc|x11] [--build]
 
   auto   noVNC на macOS, X11 на Linux (по умолчанию)
   novnc  окно игры в браузере на http://localhost:6080
   x11    прямое X11-окно; на macOS требуется XQuartz
+  -b, --build  пересобрать Docker-образ перед запуском
 EOF
 }
+
+for arg in "$@"; do
+    case "$arg" in
+        auto | novnc | x11)
+            MODE="$arg"
+            ;;
+        -b | --build)
+            REBUILD=true
+            ;;
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "Неизвестный аргумент: $arg" >&2
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
 
 case "$MODE" in
     auto)
@@ -26,14 +48,6 @@ case "$MODE" in
         fi
         ;;
     novnc | x11) ;;
-    -h | --help)
-        usage
-        exit 0
-        ;;
-    *)
-        usage >&2
-        exit 2
-        ;;
 esac
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -91,7 +105,13 @@ if [[ "$MODE" == "x11" && "$(uname -s)" != "Darwin" ]]; then
     CONTAINER_DISPLAY="$DISPLAY"
 fi
 
-docker build --tag "$IMAGE_NAME" "$SCRIPT_DIR"
+if [[ "$REBUILD" == true ]]; then
+    docker build --tag "$IMAGE_NAME" "$SCRIPT_DIR"
+elif ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
+    echo "Docker-образ '$IMAGE_NAME' не найден." >&2
+    echo "Сначала соберите его: ./play.sh --build" >&2
+    exit 1
+fi
 
 echo
 echo "Контейнер готов в режиме $MODE."

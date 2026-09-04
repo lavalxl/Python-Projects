@@ -8,7 +8,7 @@ The recommended way to run the game is Docker with Python 3.13. On macOS,
 the default mode uses noVNC and needs only a browser:
 
 ```bash
-./play.sh
+./play.sh --build
 ```
 
 Open <http://localhost:6080/vnc.html?autoconnect=1>, then run this command in
@@ -24,6 +24,15 @@ mode explicitly on either platform:
 ```bash
 ./play.sh novnc
 ./play.sh x11
+```
+
+The image is reused on subsequent runs. Pass `--build` (or `-b`) only when
+you need to build it for the first time or rebuild it after changing
+`Dockerfile` or `requirements.txt`:
+
+```bash
+./play.sh --build
+./play.sh novnc --build
 ```
 
 To use X11 mode on macOS, install XQuartz, enable **Allow connections from
