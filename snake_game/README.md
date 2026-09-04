@@ -4,7 +4,41 @@ The classic snake game.
 
 ## How to play
 
-This game requires Python 3 and Pygame.
+The recommended way to run the game is Docker with Python 3.13. On macOS,
+the default mode uses noVNC and needs only a browser:
+
+```bash
+./play.sh
+```
+
+Open <http://localhost:6080/vnc.html?autoconnect=1>, then run this command in
+the terminal where the container is open:
+
+```bash
+python3 run.py
+```
+
+On Linux, `./play.sh` uses the host X11 display by default. You can select a
+mode explicitly on either platform:
+
+```bash
+./play.sh novnc
+./play.sh x11
+```
+
+To use X11 mode on macOS, install XQuartz, enable **Allow connections from
+network clients** in **XQuartz Settings -> Security**, and restart XQuartz:
+
+```bash
+brew install --cask xquartz
+./play.sh x11
+```
+
+The project directory is mounted into `/app`, so local source changes are
+immediately visible in the container. Docker uses a dummy audio driver, so the
+game runs without sound.
+
+For a local installation, this game requires Python 3 and Pygame.
 
 ```
 python3 run.py
